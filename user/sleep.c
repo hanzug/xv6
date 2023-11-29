@@ -1,12 +1,13 @@
-// sleep.c
 #include "kernel/types.h"
-#include "kernel/stat.h"
-#include "user/user.h" // 必须以这个顺序 include，由于三个头文件有依赖关系
+#include "user/user.h"
 
-int main(int argc, char **argv) {
-	if(argc < 2) {
-		printf("usage: sleep <ticks>\n");
-	}
-	sleep(atoi(argv[1]));
-	exit(0);
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    fprintf(2, "usage: sleep [ticks num]\n");
+    exit(1);
+  }
+  // atoi sys call guarantees return an integer
+  int ticks = atoi(argv[1]);
+  int ret = sleep(ticks);
+  exit(ret);
 }
