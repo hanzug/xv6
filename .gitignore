@@ -20,5 +20,8 @@ myapi.key
 xv6.out*
 .vagrant/
 submissions/
+ph
+barrier
 .DS_Store
 .idea/
+
