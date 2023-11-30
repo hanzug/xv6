@@ -469,14 +469,16 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
   return copyinstr_new(pagetable, dst, srcva, max);
 }
 
+
+static char* indent[] = {
+    "",
+    "..",
+    ".. ..",
+    ".. .. .."
+};
+
 // Recursive helper
 void vmprint_helper(pagetable_t pagetable, int depth) {
-  static char* indent[] = {
-      "",
-      "..",
-      ".. ..",
-      ".. .. .."
-  };
   if (depth <= 0 || depth >= 4) {
     panic("vmprint_helper: depth not in {1, 2, 3}");
   }
