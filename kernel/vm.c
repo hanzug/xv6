@@ -90,6 +90,9 @@ walk(pagetable_t pagetable, uint64 va, int alloc)
       if(!alloc || (pagetable = (pde_t*)kalloc()) == 0)
         return 0;
       memset(pagetable, 0, PGSIZE);
+
+      
+      // 新的间接层只有PTE_V
       *pte = PA2PTE(pagetable) | PTE_V;
     }
   }
