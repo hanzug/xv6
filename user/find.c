@@ -32,11 +32,13 @@ void find(char *curr_path, char *target) {
     return;
   }
 
+      char *f_name = basename(curr_path);
+    int match = 1;
+
   switch (st.type) {
 
   case T_FILE:
-    char *f_name = basename(curr_path);
-    int match = 1;
+
     if (f_name == 0 || strcmp(f_name + 1, target) != 0) {
       match = 0;
     }
