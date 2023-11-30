@@ -121,6 +121,7 @@ found:
   }
 
   // Allocate the per-process kernel page table
+  //初始化kernel page
   p->kpagetable = ukvminit();
   if(p->kpagetable == 0) {
     freeproc(p);
@@ -515,10 +516,13 @@ scheduler(void)
         p->state = RUNNING;
         c->proc = p;
         ukvminithard(p->kpagetable);
+
+        //到这里就换进了新进程
         swtch(&c->context, &p->context);
 
         // Process is done running for now.
         // It should have changed its p->state before coming back.
+        // 因为scheduler是一直在polling的，每次context切换回来都应该继续运行
         kvminithart();
         c->proc = 0;
 
