@@ -77,6 +77,8 @@ usertrap(void)
     exit(-1);
 
   // give up the CPU if this is a timer interrupt.
+  //定时器中断是由CLINT（Core Local Interruptor）控制的，它可以设置一个计数器，当计数器到达某个值时，就会向CPU发送一个中断信号。
+  
   if(which_dev == 2) {
       p->ticks_since_last_alarm += 1;
       if (p->inalarm == 0 && p->alarm_period != 0 && p->ticks_since_last_alarm == p->alarm_period) {
