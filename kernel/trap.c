@@ -97,6 +97,14 @@ usertrap(void)
 //
 // return to user space
 //
+/*
+1.关闭中断，以防止在返回用户态的过程中发生中断。
+2.设置中断向量表的地址，使得下次进入内核态时，能够跳转到 trampoline.S 中的 uservec 函数。
+3.设置 trapframe 结构体中的一些字段，这些字段是 uservec 函数在下次进入内核态时需要用到的，比如内核页表，内核栈，内核中断处理函数，CPU 核心编号等。4
+4.设置一些寄存器的值，这些寄存器是 trampoline.S 中的 sret 指令在返回用户态时需要用到的，比如设置 SPP 为用户态，设置 SPIE 为开启用户态中断，设置 SEPC 为用户态程序计数器等。
+5.传递两个参数给 trampoline.S 中的 userret 函数，一个是 trapframe 结构体的地址，一个是用户态页表的地址。
+6.跳转到 trampoline.S 中的 userret 函数，这个函数会切换到用户态页表，恢复用户态寄存器，然后使用 sret 指令返回到用户态继续执行。
+*/
 void
 usertrapret(void)
 {

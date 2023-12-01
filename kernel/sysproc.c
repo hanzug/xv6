@@ -128,6 +128,7 @@ sys_sysinfo(void) {
 
 // set an alarm to call the handler function
 // every period ticks
+// 初始化alarm字段
 uint64
 sys_sigalarm(void) {
   struct proc *my_proc = myproc();
