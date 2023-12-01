@@ -95,8 +95,7 @@ usertrap(void)
 }
 
 //
-// return to user space
-//
+// preparation for return to user space
 /*
 1.关闭中断，以防止在返回用户态的过程中发生中断。
 2.设置中断向量表的地址，使得下次进入内核态时，能够跳转到 trampoline.S 中的 uservec 函数。
