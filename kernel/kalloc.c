@@ -24,6 +24,7 @@ struct {
 } kmem;
 
 // reference count for each physical page to facilitate COW
+//PHYSTOP is the max physical address
 #define PA2INDEX(pa) (((uint64)pa)/PGSIZE)
 int cowcount[PHYSTOP/PGSIZE];
 
@@ -41,7 +42,7 @@ freerange(void *pa_start, void *pa_end)
   char *p;
   p = (char*)PGROUNDUP((uint64)pa_start);
   for(; p + PGSIZE <= (char*)pa_end; p += PGSIZE) {
-    cowcount[PA2INDEX(p)] = 1; // add into free list initially
+    cowcount[PA2INDEX(p)] = 1; // 因为要初始化所以先赋值为1，kfree会--。
     kfree(p);
   }
 }
