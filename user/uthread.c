@@ -48,7 +48,7 @@ void clear_thread(struct thread *t, void (*func)()) {
   memset((void *)&t->thread_context, 0, sizeof(struct thread_context));
   t->state = RUNNABLE;
   t->thread_context.sp = (uint64) ((char *)&t->stack + STACK_SIZE);
-  t->thread_context.ra = (uint64) func;
+  t->thread_context.ra = (uint64) func; // 初始跳转位置是user传进来的线程函数
 }
 
 void 

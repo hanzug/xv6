@@ -43,6 +43,7 @@ freerange(void *pa_start, void *pa_end)
 // which normally should have been returned by a
 // call to kalloc().  (The exception is when
 // initializing the allocator; see kinit above.)
+// kfree 将空闲页加入链表
 void
 kfree(void *pa)
 {
