@@ -56,49 +56,7 @@ binit(void)
 static struct buf*
 bget(uint dev, uint blockno)
 {
-  struct buf *b;
-  int bucket = hash(blockno);
-  acquire(&bcachebucket[bucket].lock);
-  // --- critical session for the bucket ---
-  // Is the block already cached?
-  for (int i = 0; i < BUFFERSIZE; i++) {
-    b = &bcachebucket[bucket].buf[i];
-    if (b->dev == dev && b->blockno == blockno) {
-      b->refcnt++;
-      b->lastuse = ticks;
-      release(&bcachebucket[bucket].lock);
-      acquiresleep(&b->lock);
-      // --- end of critical session
-      return b;
-    }
-  }
-  // Not cached.
-  // Recycle the least recently used (LRU) unused buffer.
-  uint least = 0xffffffff;
-  int least_idx = -1;
-  for (int i = 0; i < BUFFERSIZE; i++) {
-    b = &bcachebucket[bucket].buf[i];
-    if(b->refcnt == 0 && b->lastuse < least) {
-      least = b->lastuse;
-      least_idx = i;
-    }
-  }
-
-  if (least_idx == -1) {
-    panic("bget: no unused buffer for recycle");
-  }
-
-  b = &bcachebucket[bucket].buf[least_idx];
-  b->dev = dev;
-  b->blockno = blockno;
-  b->lastuse = ticks;
-  b->valid = 0;
-  b->refcnt = 1;
-  release(&bcachebucket[bucket].lock);
-  acquiresleep(&b->lock);
-  // --- end of critical session
-  return b;
-
+  
 }
 
 // Return a locked buf with the contents of the indicated block.
