@@ -73,6 +73,7 @@ acquire(struct spinlock *lk)
   //   a5 = 1
   //   s1 = &lk->locked
   //   amoswap.w.aq a5, a5, (s1)
+  // 尝试把lock设置为1，并且返回本来的值，如何返回值为0，则代表获得了锁。
   while(__sync_lock_test_and_set(&lk->locked, 1) != 0) {
 #ifdef LAB_LOCK
     __sync_fetch_and_add(&(lk->nts), 1);
@@ -115,6 +116,7 @@ release(struct spinlock *lk)
   // On RISC-V, sync_lock_release turns into an atomic swap:
   //   s1 = &lk->locked
   //   amoswap.w zero, zero, (s1)
+  // 设置为0
   __sync_lock_release(&lk->locked);
 
   pop_off();

@@ -53,7 +53,7 @@ kfree(void *pa)
   if(((uint64)pa % PGSIZE) != 0 || (char*)pa < end || (uint64)pa >= PHYSTOP)
     panic("kfree");
 
-  push_off();
+  push_off(); // 以栈的形式判断中断。
   int cpu = cpuid();
   memset(pa, 1, PGSIZE);
   r = (struct run*)pa;
