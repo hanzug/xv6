@@ -72,7 +72,7 @@ thread_schedule(void)
   next_thread = 0;
   t = current_thread + 1;
   for(int i = 0; i < MAX_THREAD; i++){
-    if(t >= all_thread + MAX_THREAD)
+    if(t >= all_thread + MAX_THREAD) // 循环
       t = all_thread;
     if(t->state == RUNNABLE) {
       next_thread = t;
@@ -191,5 +191,5 @@ main(int argc, char *argv[])
   thread_create(thread_b);
   thread_create(thread_c);
   thread_schedule();
-  exit(0);
+  exit(0);  
 }
