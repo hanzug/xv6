@@ -583,7 +583,7 @@ sys_munmap(void){
   int idx = -1;
 
   for (int i = 0; i < NVMA; i ++ ){
-    if (p->vmas[i].valid && addr > p->vmas[i].addr && addr <= p->vmas[i].addr + p->vmas[i].length) {
+    if (p->vmas[i].valid && addr >= p->vmas[i].addr && addr <= p->vmas[i].addr + p->vmas[i].length) {
       idx = i;
       vma = &p->vmas[i];
       break;
