@@ -56,7 +56,53 @@ binit(void)
 static struct buf*
 bget(uint dev, uint blockno)
 {
+  struct buf *b;
+  int bucket = hash(blockno);
+
+  // 获取对应桶的锁
+  acquire(&bcachebucket[bucket].lock);
+  // ---- critical section -----
+  // check cached?
+  for (int i = 0; i < BUFFERSIZE; i ++ ){
+    b = &bcachebucket[bucket].buf[i];
+    if (b->dev == dev && b->blockno == blockno) {
+      b->refcnt++; // 程序的引用 ++ 
+      b->lastuse = ticks; // 时间戳
+      release(&bcachebucket[bucket].lock);
+      acquiresleep(&b->lock);
+      return b;
+    }
+  }
+
+  //not cached
+  // recycle the least recently used(LRU) unused buffer
+
+  uint least = 0xffffffff;
+  int least_idx = -1;
+  for (int i = 0; i < BUFFERSIZE; i ++ ){
+    b = &bcachebucket[bucket].buf[i];
+    if (b->refcnt ==0 && b->lastuse < least) {
+      least = b->lastuse;
+      least_idx = i;
+    }
+  }
+
+  if (least_idx == -1) {
+    // no free block
+    // need to steal some from neighbor
+    panic("bget: no unused buffer for recycle");
+  }
+
+  b = &bcachebucket[bucket].buf[least_idx];
+  b->dev = dev;
+  b->blockno = blockno;
+  b->lastuse = ticks;
+  b->valid = 0;
+  b->refcnt = 1;
+  release(&bcachebucket[bucket].lock);
+  acquiresleep(&b->lock);
   
+  return b;
 }
 
 // Return a locked buf with the contents of the indicated block.
