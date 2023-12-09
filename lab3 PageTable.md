@@ -12,7 +12,7 @@
 
 虚拟地址概况：
 
-![image-20231129164236914](C:\Users\haria\Pictures\typoraPictures\image-20231129164236914.png)
+![image-20231129164236914](https://raw.githubusercontent.com/hanzug/images/master/image-20231129164236914.png)
 
 **satp**寄存器会被内核修改。
 
@@ -24,7 +24,7 @@
 
 具体表现为：利用较高级页表的flag，可以表示一整个范围的页表状态，进而省去了这些未使用的页表项内存。
 
-![image-20231129173949041](C:\Users\haria\Pictures\typoraPictures\image-20231129173949041.png)
+![image-20231129173949041](https://raw.githubusercontent.com/hanzug/images/master/image-20231129173949041.png)
 
 
 
@@ -34,7 +34,7 @@
 
 #### kernel页表设计：
 
-![image-20231129174436669](C:\Users\haria\Pictures\typoraPictures\image-20231129174436669.png)
+![image-20231129174436669](https://raw.githubusercontent.com/hanzug/images/master/image-20231129174436669.png)
 
 
 
@@ -52,7 +52,7 @@
 
 **用户页表的虚拟地址分配**？
 
-![img](C:\Users\haria\Pictures\typoraPictures\assets%2F-MHZoT2b_bcLghjAOPsJ%2F-MKlssQnZeSx7lgksqSn%2F-MKopGK-JjubGvX84-qy%2Fimage.png)
+![img](https://raw.githubusercontent.com/hanzug/images/master/assets%2F-MHZoT2b_bcLghjAOPsJ%2F-MKlssQnZeSx7lgksqSn%2F-MKopGK-JjubGvX84-qy%2Fimage.png)
 
 
 
@@ -109,7 +109,7 @@ xv6在切换进程时，会使用内核页来保存和恢复进程的状态。�
 
 - trampoline代码会把trapframe中的寄存器状态恢复到CPU中，然后返回到用户态的程序计数器（pc）处执行。
 
-![image-20231130110643132](C:\Users\haria\Pictures\typoraPictures\image-20231130110643132.png)
+![image-20231130110643132](https://raw.githubusercontent.com/hanzug/images/master/image-20231130110643132.png)
 
 
 

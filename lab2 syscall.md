@@ -11,7 +11,7 @@
 - 控制转到系统调用的通用入口 **void syscall(void)** 手上. 它由**a7**寄存器读出需要被调用的系统调用是第几个, 从*uint64 (\*syscalls[])(void)*这个函数指针数组跳转到那个具体的系统调用函数实现上. 将返回值放在**a0**寄存器里
 - 我们从第二步的**ecall**里退出来了, 汇编指令**ret**使得用户侧系统调用接口返回
 
-![image-20231128195257277](C:\Users\haria\Pictures\typoraPictures\image-20231128195257277.png)
+![image-20231128195257277](https://raw.githubusercontent.com/hanzug/images/master/image-20231128195257277.png)
 
 
 
