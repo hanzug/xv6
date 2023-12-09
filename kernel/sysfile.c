@@ -517,6 +517,15 @@ int sys_symlink(char *target, char *path) {
   struct inode *ip;
   int n, r;
 
+/*
+argstr函数在xv6操作系统中被用于获取系统调用的参数。它将第n个系统调用参数解析为一个字符串指针12。这个函数确保这个指针指向的是一个以NULL结尾的字符串，并且整个字符串都在用户地址空间中12。
+
+直接赋值可能会导致一些问题。例如，如果你直接从用户空间获取数据，可能会遇到以下问题：
+
+用户空间的数据可能不是NULL结尾的字符串，这可能会导致程序在试图处理字符串时出现错误。
+用户空间的数据可能超出了用户地址空间的范围，这可能会导致无法预知的行为，包括访问违规和段错误。
+*/
+
   if((n = argstr(0, ktarget, MAXPATH)) < 0)
     return -1;
 
@@ -532,6 +541,7 @@ int sys_symlink(char *target, char *path) {
     goto final;
   }
   // create an inode block for the symlink
+  // and lock it.
   ip = create(kpath, T_SYMLINK, 0, 0);
   if(ip == 0){
     ret = -1;
