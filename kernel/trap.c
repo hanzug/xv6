@@ -70,6 +70,7 @@ usertrap(void)
 
     syscall();
   } else if(r_scause() == 13 || r_scause() == 15) {
+    // r_stval 返回需要的地址
     uint64 va = r_stval();
     struct proc* p = myproc();
     if (va > MAXVA || va > p->sz) {
@@ -88,6 +89,7 @@ usertrap(void)
             break;
           }
           memset((void *)pa, 0, PGSIZE);
+          
           ilock(vma->f->ip);
           if(readi(vma->f->ip, 0, pa, vma->offset + va - vma->addr, PGSIZE) < 0) {
             iunlock(vma->f->ip);
